@@ -6,6 +6,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
+#include "ui_mainwindow.h"
 #include <QStateMachine>
 #include <QEventTransition>
 #include <QPainter>
@@ -26,11 +27,15 @@ class Chess : public QMainWindow
     Q_OBJECT
 public:
     Chess();
-    //void boardInit();
+    void BoardInit(Ui::MainWindow *ui, QGraphicsScene* board);
     //void newGame();
     //void pause();
     //void options();
     //void rules();
+    std::vector<QString> piece_names{ " ", "pawn", "bishop", "knight", "rook", "queen","king" };
+    std::vector<QString> player_color{ "black","white" };
+
+    void BoardInit();
 private slots:
 private:
     //int p1_turn_;
@@ -49,14 +54,15 @@ public:
     //Cell();
 
     Cell(int x, int y, int width, int height, int id, int cell_counter); //constructor
+
     void set_color(QColor color){
         color_=color;
     }
     QColor get_color() { return color_; }
-    void set_piece(std::string piece){
+    void set_piece(QString piece){
         piece_=piece;
     }
-    std::string get_piece() { return piece_; }
+    QString get_piece() { return piece_; }
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
@@ -78,11 +84,8 @@ private:
   int width_ = 80;
   int height_= 80;
   int id_;
-  std::string piece_;
+  QString piece_;
   QColor color_;
-
-protected:
-  //void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 };
 

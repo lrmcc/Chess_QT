@@ -15,13 +15,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->radioButtonCompSpeed->setChecked(true);
     animateButtons();
 
-    // scene = new QGraphicsScene(this);
-    // ui->graphicsViewBoard->setScene(scene);
-
     Board_ = new QGraphicsScene;
     Board_->setSceneRect(0, 0, 720, 720);
     QGraphicsView * grid_view = ui->graphicsViewBoard;
     grid_view->setScene(Board_);
+    QColor bg_color(83, 89, 94);
+    grid_view->setBackgroundBrush(QBrush(bg_color, Qt::SolidPattern));
     QColor dark_cell_(181, 135, 99);
     QColor light_cell_(240, 218, 181);
     //build the board
@@ -40,7 +39,32 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
+    int x_start = 68;
 
+    QPixmap pix("C:/Users/luker/Documents/HW5_Chess/images/black_pawn.png");
+    for (int i = 0;i<16;i++){
+
+        QLabel *label_black_pawn = new QLabel(this);
+        label_black_pawn->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+        label_black_pawn->setText("black_pawn");
+        label_black_pawn->setAlignment(Qt::AlignBottom | Qt::AlignRight);
+        label_black_pawn->setFrameStyle(QFrame::NoFrame);
+        Board_->addWidget(label_black_pawn);
+        if (i < 8){
+            label_black_pawn->setGeometry(x_start,202,60,60);
+        }
+        else{
+            label_black_pawn->setGeometry(x_start,602,60,60);
+        }
+        x_start = x_start + 80;
+
+        if (x_start == 708){
+            x_start = 68;
+        }
+
+        pix = pix.scaled(label_black_pawn->size(),Qt::KeepAspectRatio);
+        label_black_pawn->setPixmap(pix);
+    }
 
 
 }
@@ -92,25 +116,117 @@ void MainWindow::animateButtons()
 void MainWindow::paintEvent(QPaintEvent *event)
 {
 
-    // end of rows
-    Board_->addRect(640,0,80,80);
-    Board_->addRect(640,80,80,80);
-    Board_->addRect(640,160,80,80);
-    Board_->addRect(640,240,80,80);
-    Board_->addRect(640,320,80,80);
-    Board_->addRect(640,400,80,80);
-    Board_->addRect(640,480,80,80);
-    Board_->addRect(640,560,80,80);
-    //bottom row
-    Board_->addRect(0,640,80,80);
-    Board_->addRect(80,640,80,80);
-    Board_->addRect(160,640,80,80);
-    Board_->addRect(240,640,80,80);
-    Board_->addRect(320,640,80,80);
-    Board_->addRect(400,640,80,80);
-    Board_->addRect(480,640,80,80);
-    Board_->addRect(560,640,80,80);
-    Board_->addRect(640,640,80,80);
+    QColor side_color(240, 235, 218);
+
+    QGraphicsRectItem* item1 = new QGraphicsRectItem(640,0,80,80);
+    QGraphicsRectItem* item2 = new QGraphicsRectItem(640,80,80,80);
+    QGraphicsRectItem* item3 = new QGraphicsRectItem(640,160,80,80);
+    QGraphicsRectItem* item4 = new QGraphicsRectItem(640,240,80,80);
+    QGraphicsRectItem* item5 = new QGraphicsRectItem(640,320,80,80);
+    QGraphicsRectItem* item6 = new QGraphicsRectItem(640,400,80,80);
+    QGraphicsRectItem* item7 = new QGraphicsRectItem(640,480,80,80);
+    QGraphicsRectItem* item8 = new QGraphicsRectItem(640,560,80,80);
+
+    QGraphicsRectItem* item9 = new QGraphicsRectItem(0,640,80,80);
+    QGraphicsRectItem* item10 = new QGraphicsRectItem(80,640,80,80);
+    QGraphicsRectItem* item11 = new QGraphicsRectItem(160,640,80,80);
+    QGraphicsRectItem* item12 = new QGraphicsRectItem(240,640,80,80);
+    QGraphicsRectItem* item13 = new QGraphicsRectItem(320,640,80,80);
+    QGraphicsRectItem* item14 = new QGraphicsRectItem(400,640,80,80);
+    QGraphicsRectItem* item15 = new QGraphicsRectItem(480,640,80,80);
+    QGraphicsRectItem* item16 = new QGraphicsRectItem(560,640,80,80);
+    QGraphicsRectItem* item17 = new QGraphicsRectItem(640,640,80,80);
+
+
+    item1->setBrush(QBrush(side_color));
+    item2->setBrush(QBrush(side_color));
+    item3->setBrush(QBrush(side_color));
+    item4->setBrush(QBrush(side_color));
+    item5->setBrush(QBrush(side_color));
+    item6->setBrush(QBrush(side_color));
+    item7->setBrush(QBrush(side_color));
+    item8->setBrush(QBrush(side_color));
+    item9->setBrush(QBrush(side_color));
+    item10->setBrush(QBrush(side_color));
+    item11->setBrush(QBrush(side_color));
+    item12->setBrush(QBrush(side_color));
+    item13->setBrush(QBrush(side_color));
+    item14->setBrush(QBrush(side_color));
+    item15->setBrush(QBrush(side_color));
+    item16->setBrush(QBrush(side_color));
+    item17->setBrush(QBrush(side_color));
+
+    Board_->addItem(item1);
+    Board_->addItem(item2);
+    Board_->addItem(item3);
+    Board_->addItem(item4);
+    Board_->addItem(item5);
+    Board_->addItem(item6);
+    Board_->addItem(item7);
+    Board_->addItem(item8);
+    Board_->addItem(item9);
+    Board_->addItem(item10);
+    Board_->addItem(item11);
+    Board_->addItem(item12);
+    Board_->addItem(item13);
+    Board_->addItem(item14);
+    Board_->addItem(item15);
+    Board_->addItem(item16);
+    Board_->addItem(item17);
+
+    QGraphicsTextItem *text1 = Board_->addText("H");
+    text1->setPos(656, 8);
+    text1->setScale(3);
+    QGraphicsTextItem *text2 = Board_->addText("G");
+    text2->setPos(656, 88);
+    text2->setScale(3);
+    QGraphicsTextItem *text3 = Board_->addText("F");
+    text3->setPos(656, 168);
+    text3->setScale(3);
+    QGraphicsTextItem *text4 = Board_->addText("E");
+    text4->setPos(656, 248);
+    text4->setScale(3);
+    QGraphicsTextItem *text5 = Board_->addText("D");
+    text5->setPos(656, 328);
+    text5->setScale(3);
+    QGraphicsTextItem *text6 = Board_->addText("C");
+    text6->setPos(656, 408);
+    text6->setScale(3);
+    QGraphicsTextItem *text7 = Board_->addText("B");
+    text7->setPos(656, 488);
+    text7->setScale(3);
+    QGraphicsTextItem *text8 = Board_->addText("A");
+    text8->setPos(656, 568);
+    text8->setScale(3);
+
+    QGraphicsTextItem *text9 = Board_->addText("1");
+    text9->setPos(16,648);
+    text9->setScale(3);
+    QGraphicsTextItem *text10 = Board_->addText("2");
+    text10->setPos(96,648);
+    text10->setScale(3);
+    QGraphicsTextItem *text11 = Board_->addText("3");
+    text11->setPos(176,648);
+    text11->setScale(3);
+    QGraphicsTextItem *text12 = Board_->addText("4");
+    text12->setPos(256,648);
+    text12->setScale(3);
+    QGraphicsTextItem *text13 = Board_->addText("5");
+    text13->setPos(336,648);
+    text13->setScale(3);
+    QGraphicsTextItem *text14 = Board_->addText("6");
+    text14->setPos(416,648);
+    text14->setScale(3);
+    QGraphicsTextItem *text15 = Board_->addText("7");
+    text15->setPos(496,648);
+    text15->setScale(3);
+    QGraphicsTextItem *text16 = Board_->addText("8");
+    text16->setPos(576,648);
+    text16->setScale(3);
+
+
+
+
 
 }
 
