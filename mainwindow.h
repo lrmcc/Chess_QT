@@ -33,7 +33,7 @@ public:
     void animateButtons();
     void addItemListMoves(QString item);
     QGraphicsScene *Board_;
-
+    void populateBoard(QGraphicsScene * board);
 private slots:
     void on_pushButtonEnterP2Name_clicked();
 
