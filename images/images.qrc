@@ -23,5 +23,6 @@
         <file>zero.png</file>
         <file>black_knight.png</file>
         <file>white_knight.png</file>
+        <file>null.png</file>
     </qresource>
 </RCC>

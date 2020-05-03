@@ -19,14 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     Board_ = new QGraphicsScene;
     Board_->setSceneRect(0, 0, 720, 720);
 
-
-
     QGraphicsView * grid_view = ui->graphicsViewBoard;
     grid_view->setScene(Board_);
 
     QColor bg_color(83, 89, 94);
     grid_view->setBackgroundBrush(QBrush(bg_color, Qt::SolidPattern));
-
 
     QColor dark_cell_(181, 135, 99);
     QColor light_cell_(240, 218, 181);
@@ -47,7 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
 
-    populateBoard(Board_);
+    //start the game
+        //Chess * game = new Chess()
 
 }
 
@@ -205,176 +203,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QGraphicsTextItem *text16 = Board_->addText("8");
     text16->setPos(576,648);
     text16->setScale(3);
-
-}
-void MainWindow::populateBoard(QGraphicsScene * board)
-{
-    int x_start = 68;
-    QPixmap pix;
-    //adding pawns
-    QPixmap pix_black_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png");
-    QPixmap pix_white_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png");
-    for (int i = 0;i<16;i++){
-        QLabel *label_pawn = new QLabel(this);
-        //QPixmap pix;
-        if (i < 8){
-            label_pawn->setText("black pawn");
-            label_pawn->setGeometry(x_start,202,60,60);
-            pix = pix_black_pawn;
-        }
-        else{
-            label_pawn->setText("white pawn");
-            label_pawn->setGeometry(x_start,602,60,60);
-            pix = pix_white_pawn;
-        }
-        label_pawn->setAlignment(Qt::AlignCenter);
-        label_pawn->setFrameStyle(QFrame::NoFrame);
-        x_start = x_start + 80;
-        if (x_start == 708){
-            x_start = 68;
-        }
-        pix = pix.scaled(label_pawn->size(),Qt::KeepAspectRatio);
-        label_pawn->setPixmap(pix);
-        //QGraphicsProxyWidget *proxy = new QGraphicsProxyWidget(label_pawn);
-        QGraphicsProxyWidget *proxy = board->addWidget(label_pawn);
-        }
-
-
-
-
-    //adding bishops
-    x_start = 228;
-    QPixmap pix_black_bishop("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_bishop.png");
-    QPixmap pix_white_bishop("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_bishop.png");
-    for (int i = 0;i<4;i++){
-        QLabel *label_bishop = new QLabel(this);
-        //QPixmap pix;
-        label_bishop->setText("bishop");
-        label_bishop->setAlignment(Qt::AlignCenter);
-        label_bishop->setFrameStyle(QFrame::NoFrame);
-        Board_->addWidget(label_bishop);
-        if (i < 2){
-            label_bishop->setGeometry(x_start,122,60,60);
-            pix = pix_black_bishop;
-        }
-        else{
-            label_bishop->setGeometry(x_start,682,60,60);
-            pix = pix_white_bishop;
-        }
-        x_start = x_start + 240;
-        if (i==1){
-            x_start = 228;
-        }
-        pix = pix.scaled(label_bishop->size(),Qt::KeepAspectRatio);
-        label_bishop->setPixmap(pix);
-    }
-
-
-    //adding knights
-    x_start = 148;
-    QPixmap pix_black_knight("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_rook.png");
-    QPixmap pix_white_knight("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_rook.png");
-    for (int i = 0;i<4;i++){
-        QLabel *label_knight = new QLabel(this);
-        //QPixmap pix;
-        label_knight->setText("knight");
-        label_knight->setAlignment(Qt::AlignCenter);
-        label_knight->setFrameStyle(QFrame::NoFrame);
-        Board_->addWidget(label_knight);
-        if (i < 2){
-            label_knight->setGeometry(x_start,122,60,60);
-            pix = pix_black_knight;
-        }
-        else{
-            label_knight->setGeometry(x_start,682,60,60);
-            pix = pix_white_knight;
-        }
-        x_start = x_start + 400;
-        if (i==1){
-            x_start = 148;
-        }
-        pix = pix.scaled(label_knight->size(),Qt::KeepAspectRatio);
-        label_knight->setPixmap(pix);
-    }
-
-
-    //adding rook
-    x_start = 68;
-    QPixmap pix_black_castle("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_castle.png");
-    QPixmap pix_white_castle("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_castle.png");
-    for (int i = 0;i<4;i++){
-        QLabel *label_castle = new QLabel(this);
-        //QPixmap pix;
-        label_castle->setText("castle");
-        label_castle->setAlignment(Qt::AlignCenter);
-        label_castle->setFrameStyle(QFrame::NoFrame);
-        Board_->addWidget(label_castle);
-        if (i < 2){
-            label_castle->setGeometry(x_start,122,60,60);
-            pix = pix_black_castle;
-        }
-        else{
-            label_castle->setGeometry(x_start,682,60,60);
-            pix = pix_white_castle;
-        }
-        x_start = x_start + 560;
-        if (i==1){
-            x_start = 68;
-        }
-        pix = pix.scaled(label_castle->size(),Qt::KeepAspectRatio);
-        label_castle->setPixmap(pix);
-    }
-
-    //adding queen
-    QPixmap pix_black_queen("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_queen.png");
-    QPixmap pix_white_queen("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_queen.png");
-
-    QLabel *label_black_queen = new QLabel(this);
-    //QPixmap pix;
-    label_black_queen->setAlignment(Qt::AlignCenter);
-    label_black_queen->setFrameStyle(QFrame::NoFrame);
-    label_black_queen->setText("black queen");
-    label_black_queen->setGeometry(388,122,60,60);
-    pix = pix_black_queen;
-    pix = pix.scaled(label_black_queen->size(),Qt::KeepAspectRatio);
-    label_black_queen->setPixmap(pix);
-    Board_->addWidget(label_black_queen);
-
-    QLabel *label_white_queen = new QLabel(this);
-    label_white_queen->setAlignment(Qt::AlignCenter);
-    label_white_queen->setFrameStyle(QFrame::NoFrame);
-    label_white_queen->setText("white queen");
-    label_white_queen->setGeometry(388,682,60,60);
-    pix = pix_white_queen;
-    pix = pix.scaled(label_white_queen->size(),Qt::KeepAspectRatio);
-    label_white_queen->setPixmap(pix);
-    Board_->addWidget(label_white_queen);
-
-    //adding king
-    QPixmap pix_black_king("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_king.png");
-    QPixmap pix_white_king("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_king.png");
-
-    QLabel *label_black_king = new QLabel(this);
-    //QPixmap pix;
-    label_black_king->setAlignment(Qt::AlignCenter);
-    label_black_king->setFrameStyle(QFrame::NoFrame);
-    label_black_king->setText("black king");
-    label_black_king->setGeometry(308,122,60,60);
-    pix = pix_black_king;
-    pix = pix.scaled(label_black_king->size(),Qt::KeepAspectRatio);
-    label_black_king->setPixmap(pix);
-    Board_->addWidget(label_black_king);
-
-    QLabel *label_white_king = new QLabel(this);
-    label_white_king->setAlignment(Qt::AlignCenter);
-    label_white_king->setFrameStyle(QFrame::NoFrame);
-    label_white_king->setText("white queen");
-    label_white_king->setGeometry(308,682,60,60);
-    pix = pix_white_king;
-    pix = pix.scaled(label_white_king->size(),Qt::KeepAspectRatio);
-    label_white_king->setPixmap(pix);
-    Board_->addWidget(label_white_king);
-
 
 }
 void MainWindow::on_pushButtonEnterP1Name_clicked()

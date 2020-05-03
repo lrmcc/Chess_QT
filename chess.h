@@ -27,7 +27,7 @@ class Chess : public QMainWindow
     Q_OBJECT
 public:
     Chess();
-    void BoardInit(Ui::MainWindow *ui, QGraphicsScene* board);
+    void BoardInit();
     //void newGame();
     //void pause();
     //void options();
@@ -35,9 +35,9 @@ public:
     std::vector<QString> piece_names{ " ", "pawn", "bishop", "knight", "rook", "queen","king" };
     std::vector<QString> player_color{ "black","white" };
 
-    void BoardInit();
 private slots:
 private:
+    std::map<std::string, QPixmap> * piece_images_;
     //int p1_turn_;
     //int p2_turn_;
     //std::string p1_name_;
@@ -72,6 +72,7 @@ public:
     int get_y() const { return y_; }  // inline member function
     int get_width() { return width_; }
     int get_height() { return height_; }
+    void pieceInit(int id);
 
 //signals:
     //void increase();
