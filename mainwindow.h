@@ -4,6 +4,7 @@
 #include "chess.h"
 #include <QMainWindow>
 #include <QMessageBox>
+#include <vector>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QSequentialAnimationGroup>
@@ -27,14 +28,26 @@ public:
     ~MainWindow();
 
     virtual void paintEvent(QPaintEvent *event);
-
+    int get_cell_click(){return cell_click_counter_;}
+    void clear_cell_click(){cell_click_counter_ = 0;}
     QGraphicsItem *getItem() const;
     void setItem(QGraphicsItem *value);
     void animateButtons();
     void addItemListMoves(QString item);
     QGraphicsScene *Board_;
+    //void clearCellsClicked(std::vector<Cell *> cellsClicked);
 
 private slots:
+    void setCellsClicked(Cell * c);
+
+    // the parameters match the parameters of the signal
+    //void CellSelectedSlot(Cell * c);
+
+    // Day 3, Task 3
+    //void DeleteCellSlot(Cell * c);
+
+    // Day 3, Task 2
+
     void on_pushButtonEnterP2Name_clicked();
 
     void on_pushButtonEnterP1Name_clicked();
@@ -74,14 +87,16 @@ private:
     QPropertyAnimation *animation2;
     QPropertyAnimation *animation3;
     QParallelAnimationGroup *animationGroup;
-
+    int cell_click_counter_ = 0;
     QGraphicsItem *item;
     QGraphicsScene *scene;
     int cell_height_;
     int cell_width_;
     int cell_count_;
-    QTimer *timer;
-    Cell * cells[8][8];
+    QTimer *timer_;
+    Cell * cells_[8][8];
+    std::vector<Cell *> cellsClicked_;
+    Cell *target_;
     //std::vector <Chess*> pieces_;
 
 };

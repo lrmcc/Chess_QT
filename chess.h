@@ -59,6 +59,7 @@ public:
         color_=color;
     }
     QColor get_color() { return color_; }
+    QColor get_original_color() { return original_color_; }
     void set_piece(QString piece){
         piece_=piece;
     }
@@ -67,17 +68,27 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
+    void updateCell(){update();}
 
     int get_x() const { return x_; }  // inline member function
     int get_y() const { return y_; }  // inline member function
     int get_width() { return width_; }
     int get_height() { return height_; }
-    void pieceInit(int id);
+    int get_id() const { return id_;}
+
+
 
 //signals:
     //void increase();
     //void decrease();
     //void neighbors(int x,int y);
+signals:
+
+    void CellSelected(Cell * c);
+    //void DeleteCell(Cell * c);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
   int x_;
@@ -87,6 +98,8 @@ private:
   int id_;
   QString piece_;
   QColor color_;
+  QColor original_color_;
+  QPixmap piece_pixmap_;
 
 };
 

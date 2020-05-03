@@ -11,11 +11,6 @@ Chess::Chess()
     piece_images_->insert(std::pair<std::string, QPixmap>("black_pawn", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png"));
     piece_images_->insert(std::pair<std::string, QPixmap>("white_pawn", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png"));
 
-
-            //   pix_black_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png");
-           //    QPixmap pix_white_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png");
-
-
 }
 void Chess::BoardInit(){
 
@@ -41,6 +36,7 @@ Cell::Cell(int x, int y, int width, int height, int id, int cell_counter){
         color.setRgb(181, 135, 99);
     }
     color_ = color;
+    original_color_ = color;
     x_ = x * width; //since we are creating squares we need x and y to be more than simply a point
     y_ = y * height;
     width_ = width;
@@ -130,58 +126,12 @@ void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 
-void Cell::pieceInit(int id)
+void Cell::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    /*
-    int x  = this->x_;
-    int adj = 0;
-    if (id > 7 && id < 16) {
-        adj = id - 8;
-        x = 68 + (80*adj);
-        QLabel *label_pawn = new QLabel();
-        //QPixmap pix_black_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png");
-        pix_->load("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png");
-        label_pawn->setText("black pawn");
-        label_pawn->setGeometry(x,202,60,60);
-        //pix_ = pix_black_pawn;
-        label_pawn->setAlignment(Qt::AlignCenter);
-        label_pawn->setFrameStyle(QFrame::NoFrame);
-        pix_->scaled(label_pawn->size(),Qt::KeepAspectRatio);
-        label_pawn->setPixmap(*pix_);
-        label_ = label_pawn;
-        //pawns use a proxy widget, but still the embed warnings appear
-        //QGraphicsProxyWidget *proxy = board->addWidget(label_pawn);
-        qDebug() << ("black pawn");
+    qDebug() << "Cell "<< QString::number(id_) << " clicked!";
 
-    }
-    else if (id > 47 && id < 56){
-        adj = id - 48;
-        x = 68 + (80*adj);
-        QLabel *label_pawn = new QLabel();
-        //QPixmap pix_white_pawn("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png");
-        pix_->load("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png");
-        label_pawn->setText("white pawn");
-        label_pawn->setGeometry(x,602,60,60);
-        //pix_ = pix_white_pawn;
-        label_pawn->setAlignment(Qt::AlignCenter);
-        label_pawn->setFrameStyle(QFrame::NoFrame);
-        pix_->scaled(label_pawn->size(),Qt::KeepAspectRatio);
-        label_pawn->setPixmap(*pix_);
-        label_ = label_pawn;
-        //pawns use a proxy widget, but still the embed warnings appear
-        //QGraphicsProxyWidget *proxy = board->addWidget(label_pawn);
-        qDebug() << ("white pawn");
-    }
-*/
+    emit CellSelected(this);
+
+    update();
+
 }
-
-
-
-
-
-
-
-
-
-
-

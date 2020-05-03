@@ -33,7 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++) {
             Cell * item = new Cell(j, i, 80, 80,cell_id, cell_count);
-            cells[i][j] = item;
+            cells_[i][j] = item;
+            connect(item, &Cell::CellSelected, this, &MainWindow::setCellsClicked);
+            //connect(item, &Cell::DeleteCell, this, &MainWindow::DeleteCellSlot);
             Board_->addItem(item);
             cell_count++;
             cell_id++;
@@ -42,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
             }
         }
     }
-
 
     //start the game
         //Chess * game = new Chess()
@@ -56,6 +57,58 @@ MainWindow::~MainWindow()
 void MainWindow::addItemListMoves(QString item){
     ui->listWidgetMoves->addItem(item);
 }
+
+void MainWindow::setCellsClicked(Cell * c){
+    int vec_size = cellsClicked_.size();
+    qDebug() << "vec_size" << QString::number(vec_size);
+    cell_click_counter_++;
+    int num_clicks = get_cell_click();
+    qDebug() << "num_clicks" << QString::number(num_clicks);
+
+    Cell *temp;
+
+
+    if (num_clicks == 1){
+        cellsClicked_.push_back(c);
+        qDebug() << "Cell "<< QString::number(c->get_id()) << " to move";
+        QColor highlight(226, 240, 29);
+        c->set_color(highlight);
+
+    }
+    else if (num_clicks == 2 ){
+        cellsClicked_.push_back(c);
+        qDebug() << "Target Cell "<< QString::number(c->get_id()) << " if legal move";
+        QColor highlight(245, 66, 129);
+        c->set_color(highlight);
+        target_ = c;
+
+    }
+    else if (num_clicks > 2){
+        int target_id = target_->get_id();
+        qDebug() << "Prev cell: " << QString::number(target_id);
+        int curr_id = c->get_id();
+        qDebug() << "Curr cell: " << QString::number(curr_id);
+
+        if (curr_id == target_id){
+            for (auto i = cellsClicked_.begin(); i != cellsClicked_.end(); ++i){
+                temp = *i;
+                temp->set_color(temp->get_original_color());
+                temp->updateCell();
+            }
+            cellsClicked_.clear();
+            num_clicks = 0;
+            clear_cell_click();
+        }
+
+    }
+    else{
+
+    }
+    vec_size = cellsClicked_.size();
+    qDebug() << "vec_size" << QString::number(vec_size);
+
+}
+
 void MainWindow::animateButtons()
 {
     animation = new QPropertyAnimation(ui->pushButtonNewGame, "geometry");

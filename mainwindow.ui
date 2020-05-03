@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1664</width>
-    <height>885</height>
+    <height>910</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -176,7 +176,7 @@ background: yellow;
       <x>10</x>
       <y>0</y>
       <width>1101</width>
-      <height>54</height>
+      <height>57</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayoutTitleMenu">
@@ -280,7 +280,7 @@ background: yellow;
      <rect>
       <x>1100</x>
       <y>80</y>
-      <width>181</width>
+      <width>197</width>
       <height>601</height>
      </rect>
     </property>
@@ -629,7 +629,7 @@ background: yellow;
      <x>0</x>
      <y>0</y>
      <width>1664</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
