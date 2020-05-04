@@ -32,7 +32,7 @@ public:
     //void pause();
     //void options();
     //void rules();
-    std::vector<QString> piece_names{ " ", "pawn", "bishop", "knight", "rook", "queen","king" };
+    std::vector<QString> piece_names{ "null", "pawn", "bishop", "knight", "castle", "queen","king" };
     std::vector<QString> player_color{ "black","white" };
 
 private slots:
@@ -64,11 +64,17 @@ public:
         piece_=piece;
     }
     QString get_piece() { return piece_; }
+    QPixmap* get_pixmap() {return piece_pixmap_;}
+    void set_pixmap(QPixmap pixmap) {piece_pixmap_ = &pixmap;}
+
+    static void updatePiece(Cell *c, QString piece);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     void updateCell(){update();}
+
+    //QPixmap getPiecePixmap(QString piece);
 
     int get_x() const { return x_; }  // inline member function
     int get_y() const { return y_; }  // inline member function
@@ -96,10 +102,13 @@ private:
   int width_ = 80;
   int height_= 80;
   int id_;
+  bool init_;
   QString piece_;
   QColor color_;
   QColor original_color_;
-  QPixmap piece_pixmap_;
+  QPixmap img;
+  QPixmap *piece_pixmap_;
+
 
 };
 

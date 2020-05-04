@@ -36,17 +36,12 @@ public:
     void addItemListMoves(QString item);
     QGraphicsScene *Board_;
     //void clearCellsClicked(std::vector<Cell *> cellsClicked);
-
 private slots:
     void setCellsClicked(Cell * c);
 
-    // the parameters match the parameters of the signal
     //void CellSelectedSlot(Cell * c);
 
-    // Day 3, Task 3
     //void DeleteCellSlot(Cell * c);
-
-    // Day 3, Task 2
 
     void on_pushButtonEnterP2Name_clicked();
 
@@ -96,8 +91,10 @@ private:
     QTimer *timer_;
     Cell * cells_[8][8];
     std::vector<Cell *> cellsClicked_;
+    Cell *toMove_;
+    //QPixmap *toMove_Pixmap_;
     Cell *target_;
-    //std::vector <Chess*> pieces_;
+    //QPixmap *target_Pixmap_;
 
 };
 #endif // MAINWINDOW_H

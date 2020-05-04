@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->radioButtonCompSpeed->setChecked(true);
     animateButtons();
 
-
     Board_ = new QGraphicsScene;
     Board_->setSceneRect(0, 0, 720, 720);
 
@@ -46,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     //start the game
-        //Chess * game = new Chess()
+    //Chess * game = new Chess();
 
 }
 
@@ -73,6 +72,7 @@ void MainWindow::setCellsClicked(Cell * c){
         qDebug() << "Cell "<< QString::number(c->get_id()) << " to move";
         QColor highlight(226, 240, 29);
         c->set_color(highlight);
+        toMove_=c;
 
     }
     else if (num_clicks == 2 ){
@@ -83,26 +83,61 @@ void MainWindow::setCellsClicked(Cell * c){
         target_ = c;
 
     }
-    else if (num_clicks > 2){
+    else if (num_clicks == 2 || num_clicks ==3){
+        int toMove_id = toMove_->get_id();
+        qDebug() << "Prev cell: " << QString::number(toMove_id);
         int target_id = target_->get_id();
         qDebug() << "Prev cell: " << QString::number(target_id);
         int curr_id = c->get_id();
         qDebug() << "Curr cell: " << QString::number(curr_id);
 
         if (curr_id == target_id){
+            qDebug() << "Move piece to target cell!";
+            //reset cell colors
             for (auto i = cellsClicked_.begin(); i != cellsClicked_.end(); ++i){
                 temp = *i;
                 temp->set_color(temp->get_original_color());
                 temp->updateCell();
             }
+            //execute image move
+            QString curr_piece = toMove_->get_piece();
+            qDebug() << "Move " << curr_piece;
+            qDebug() << "To " << target_->get_piece();
+            Cell::updatePiece(toMove_, "null");
+            Cell::updatePiece(target_, curr_piece);
+
+
+            // clear setup
+            cellsClicked_.clear();
+            num_clicks = 0;
+            clear_cell_click();
+        }
+        else if (curr_id == toMove_id){
+            qDebug() << "Cancel Move!";
+            // reset cell colors
+            for (auto i = cellsClicked_.begin(); i != cellsClicked_.end(); ++i){
+                temp = *i;
+                temp->set_color(temp->get_original_color());
+                temp->updateCell();
+            }
+            // clear setup
             cellsClicked_.clear();
             num_clicks = 0;
             clear_cell_click();
         }
 
     }
-    else{
-
+    else if (num_clicks == 4){
+        qDebug() << "Number of clicks ==4";
+        qDebug() << "Cancel Move!";
+        for (auto i = cellsClicked_.begin(); i != cellsClicked_.end(); ++i){
+            temp = *i;
+            temp->set_color(temp->get_original_color());
+            temp->updateCell();
+        }
+        cellsClicked_.clear();
+        num_clicks = 0;
+        clear_cell_click();
     }
     vec_size = cellsClicked_.size();
     qDebug() << "vec_size" << QString::number(vec_size);

@@ -9,7 +9,17 @@
 Chess::Chess()
 {
     piece_images_->insert(std::pair<std::string, QPixmap>("black_pawn", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("black_bishop", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_bishop.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("black_knight", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_knight.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("black_castle", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_castle.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("black_king", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_king.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("black_queen", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_queen.png"));
     piece_images_->insert(std::pair<std::string, QPixmap>("white_pawn", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("white_bishop", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_bishop.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("white_knight", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_knight.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("white_castle", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_castle.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("white_king", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_king.png"));
+    piece_images_->insert(std::pair<std::string, QPixmap>("white_queen", "C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_queen.png"));
 
 }
 void Chess::BoardInit(){
@@ -41,11 +51,61 @@ Cell::Cell(int x, int y, int width, int height, int id, int cell_counter){
     y_ = y * height;
     width_ = width;
     height_ = height;
+    init_ = true;
     id_ = id;
     qDebug() << QString::number(id);
 
+    if (id > 7 && id < 16) {
+        piece_= "black_pawn";
+
+    }
+    else if (id > 47 && id < 56){
+        piece_= "white_pawn";
+    }
+    else if (id == 0 || id == 7){
+        piece_= "black_castle";
+    }
+    else if (id == 56 || id == 63){
+        piece_= "white_castle";
+    }
+    else if (id == 1 || id == 6){
+        piece_= "black_knight";
+    }
+    else if (id == 57 || id_== 62){
+        piece_= "white_knight";
+    }
+    else if (id == 2 || id == 5){
+        piece_= "black_bishop";
+    }
+    else if (id == 58 || id == 61){
+        piece_= "white_bishop";
+    }
+    else if (id == 3){
+        piece_= "black_king";
+    }
+    else if (id == 4){
+        piece_= "black_queen";
+    }
+    else if (id == 59){
+        piece_= "white_king";
+    }
+    else if (id == 60){
+        piece_= "white_queen";
+    }
+    else {
+        piece_= "null";
+    }
+
 }
 
+
+void Cell::updatePiece(Cell *c, QString piece){
+
+    qDebug() << "updatePiece: cell id " << c->id_;
+    qDebug() << "updatePiece: cell changing to To " << piece;
+    c->piece_ = piece;
+    c->updateCell();
+}
 QRectF Cell::boundingRect() const
 {
     return QRectF(x_, y_, width_, width_);
@@ -60,68 +120,79 @@ QPainterPath Cell::shape() const
 
 void Cell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(widget) //should not have a semi colon
-
+    Q_UNUSED(widget)
+    QString piece = piece_;
     QBrush b = painter->brush();
     painter->setBrush(QBrush(color_));
     painter->drawRect(QRect(this->x_, this->y_, this->width_, this->width_));
 
-    //switch statement based on piece show piece or blank
-    if (id_ > 7 && id_ < 16) {
+    if (piece == "black_pawn") {
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_pawn.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ > 47 && id_ < 56){
+    else if (piece == "white_pawn"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_pawn.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 0 || id_ == 7){
+    else if (piece == "black_castle"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_castle.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 56 || id_ == 63){
+    else if (piece == "white_castle"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_castle.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 1 || id_ == 6){
+    else if (piece == "black_knight"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_knight.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 57 || id_ == 62){
+    else if (piece == "white_knight"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_knight.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 2 || id_ == 5){
+    else if (piece == "black_bishop"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_bishop.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 58 || id_ == 61){
+    else if (piece == "white_bishop"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_bishop.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 3){
+    else if (piece == "black_king"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_king.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 4){
+    else if (piece == "black_queen"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/black_queen.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 59){
+    else if (piece == "white_king"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_king.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else if (id_ == 60){
+    else if (piece == "white_queen"){
         QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/white_queen.png");
-        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), img);
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
-    else {
-        int cell_text_x = x_ + 33;
-        int cell_text_y = y_ + 33;
-        QString text_cell = QString::number(id_);
-        QRectF rect{static_cast<qreal>(cell_text_x), static_cast<qreal>(cell_text_y), 40, 40};
-        painter->drawText(rect, text_cell);
+    else if (piece == "null"){
+        QPixmap img("C:/Users/pbdin/OneDrive/Desktop/HW5_Chess/HW5_final_project/images/null.png");
+        piece_pixmap_ = &img;
+        painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     }
+
+    //painter->drawPixmap(QRect(this->x_, this->y_, this->width_, this->width_), *piece_pixmap_);
     painter->setBrush(b);
 }
 
